@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mellow Ring Donut&Salad|入力画面</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/hamburgers.css">
+  <link rel="apple-touch-icon" href="../touch-icon.png">
+</head>
+<body id="top">
+  <header>
+    <h1><a href="../"><span>Mellow Ring</span>Donut&Salad</a></h1>
+    <nav class="pc-nav">
+      <ul>
+        <li><a href="../#news">NEWS</a></li>
+        <li><a href="../#about">ABOUT</a></li>
+        <li><a href="../#item">ITEM</a></li>
+        <li><a href="../#access">ACCESS</a></li>
+        <li><a href="#"><img src="../img/facebook-brands-solid-full.svg" alt=""></a></li>
+        <li><a href="#"><img src="../img/instagram-brands-solid-full.svg" alt=""></a></li>
+      </ul>
+    </nav>
+  <button class="hamburger hamburger--collapse" type="button" id="ham-btn">
+    <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+  </button>
+
+  </header>
+
+
+
+      <!-- jqで制御するのでid -->
+      <nav id="sp-nav">
+      <ul>
+        <li><a href="../#news">NEWS</a></li>
+        <li><a href="../#about">ABOUT</a></li>
+        <li><a href="../#item">ITEM</a></li>
+        <li><a href="../#access">ACCESS</a></li>
+        <li><a href="#"><img src="../img/facebook-sp.svg" alt=""></a></li>
+        <li><a href="#"><img src="../img/instagram-sp.svg" alt=""></a></li>
+      </ul>
+    </nav>
+
+  <main>
+    <section class="page-section">
+      <h2 data-ja="お問い合わせ">CONTACT</h2>
+      <!-- post形式で送信 -->
+      <!-- googleformのプレビュー画面＞検証＞actionのパスをコピぺ -->
+      <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfYPQv04uIhVZPbfJUgG9sK-YLzHPK3cjZC1HTc7p87aVwALA/formResponse" method="post" id="g-form">
+        <dl class="form-list">
+          <dt>お名前</dt>
+          <!-- autocompleteでブラウザに登録している項目が自動で入力できる -->
+          <!-- Googleフォームの場合、決まったname属性が割り当てられる。検証画面でvalueを確認のこと -->
+          <dd><input type="text" name="entry.871336596" required placeholder="山田メロウ" autocomplete="name"></dd>
+
+          <dt>メールアドレス</dt>
+          <dd><input type="email" name="entry.840048786" required placeholder="xxx@xxxx.com" autocomplete="email"></dd>
+
+          <dt>お問い合わせの種類</dt>
+          <dd>
+            <label><input type="radio" name="entry.2073546411" id="list-1" required checked value="商品について">商品について</label>
+            <label><input type="radio" name="entry.2073546411" id="list-2" required value="ケータリングについて">ケータリングについて</label>
+            <label><input type="radio" name="entry.2073546411" id="list-3" required value="採用について">採用について</label>
+            <label><input type="radio" name="entry.2073546411" id="list-4" required value="その他">その他</label>
+          </dd>
+
+          <dt>お問い合わせの内容</dt>
+          <dd><textarea name="entry.1688084879" required placeholder="お問い合わせの内容をご入力ください"></textarea></dd>
+        </dl>
+
+        <input class="btn btn-border" type="submit" value="送信">
+
+      </form>
+    </section>
+
+  </main>
+
+
+    <ul class="shop-link">
+      <li><a href="#">Voodoo Vintage</a></li>
+      <li><a href="#">Neon Donuts</a></li>
+      <li><a href="#">Mellow Mkt Stand</a></li>
+      <li><a href="#">The Rolling Ring</a></li>
+      <li><a href="#">Always Mellow</a></li>
+      <li><a href="#">Sweet Case</a></li>
+    </ul>
+  <footer>
+    <p class="footer-logo">Mellow Ring Donut&Salad</p>
+    <p class="copy">&copy; <span id="this-year"></span></p>
+
+  </footer>
+</body>
+<!-- jqueryのCDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $(function(){
+
+    //西暦を取得
+    const fullYear = new Date().getFullYear();
+    console.log(fullYear);
+    if(fullYear >= 2027){
+      $('#this-year').text('2026 - '+fullYear);
+    }else{
+      $('#this-year').text(+fullYear);
+    }
+
+    //ハンバーガーボタン
+    $('#ham-btn').on('click',function(){
+      //3本線を✕に
+      $(this).toggleClass('is-active');
+      //フェードしながら表示切替
+      $('#sp-nav').fadeToggle(300);
+    });
+
+    //#sp-nav a をクリックしたら
+    $('#sp-nav a').on('click',function(){
+      //nav閉じる
+      $('#sp-nav').fadeOut(300);
+      //さらにボタンを三本線に戻すためにクラスis-activeを削除する
+      $('#ham-btn').removeClass('is-active')
+    });
+
+    // ajaxでページ遷移
+    $('#g-form').submit(function (event) {
+    var formData = $('#g-form').serialize();
+    //url＝データの送り先
+    $.ajax({
+      url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfYPQv04uIhVZPbfJUgG9sK-YLzHPK3cjZC1HTc7p87aVwALA/formResponse",
+      data: formData,
+      type: "POST",
+      dataType: "xml",
+      statusCode: {
+        0: function(){
+          window.location.href = "thanks.html";//移動先のパス
+          },
+        200: function(){
+        //失敗したときの処理
+          }
+        }
+      });
+    //googleformへのページ遷移をキャンセル
+    event.preventDefault();
+    });
+
+
+
+  });
+</script>
+</html>
